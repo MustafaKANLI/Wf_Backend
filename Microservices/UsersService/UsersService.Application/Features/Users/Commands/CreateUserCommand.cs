@@ -8,8 +8,14 @@ namespace UsersService.Application.Features.Users.Commands;
 
 public class CreateUserCommand : IRequest<Response<string>>
 {
-  public string FirstName { get; set; } = default!;
-  public int Age { get; set; } = default!;
+    
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public string UserName { get; set; }
+    public string FullName { get; set; }
+    public int CustomerId { get; set; }
+    public int ClaimId { get; set; }
+    public string Phone { get; set; }
 }
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response<string>>
@@ -28,4 +34,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
 
     return new Response<string>(user.Id.ToString(), "User created");
   }
+
+
 }
