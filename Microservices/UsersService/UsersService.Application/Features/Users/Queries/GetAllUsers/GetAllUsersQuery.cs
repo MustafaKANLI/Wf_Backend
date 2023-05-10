@@ -25,7 +25,7 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, PagedRe
   public async Task<PagedResponse<IEnumerable<UserViewModel>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
   {
     var dataCount = await _UserRepository.GetDataCount();
-    var Users = await _UserRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
+    var Users = await _UserRepository.GetPagedReponseAsync();
 
     var UserViewModels = new List<UserViewModel>();
 
@@ -35,6 +35,6 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, PagedRe
       UserViewModels.Add(User);
     }
 
-    return new PagedResponse<IEnumerable<UserViewModel>>(UserViewModels, request.PageNumber, request.PageSize, dataCount);
+    return new PagedResponse<IEnumerable<UserViewModel>>(UserViewModels);
   }
 }

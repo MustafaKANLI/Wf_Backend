@@ -25,7 +25,7 @@ public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery,
   public async Task<PagedResponse<IEnumerable<CustomerViewModel>>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
   {
     var dataCount = await _CustomerRepository.GetDataCount();
-    var Customers = await _CustomerRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
+    var Customers = await _CustomerRepository.GetPagedReponseAsync();
 
     var CustomerViewModels = new List<CustomerViewModel>();
 
@@ -35,6 +35,6 @@ public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery,
       CustomerViewModels.Add(Customer);
     }
 
-    return new PagedResponse<IEnumerable<CustomerViewModel>>(CustomerViewModels, request.PageNumber, request.PageSize, dataCount);
+    return new PagedResponse<IEnumerable<CustomerViewModel>>(CustomerViewModels);
   }
 }

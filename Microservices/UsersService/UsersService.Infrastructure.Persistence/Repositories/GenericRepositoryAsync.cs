@@ -18,12 +18,11 @@ public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : cl
     return await _dbContext.Set<T>().FindAsync(id);
   }
 
-  public async Task<IReadOnlyList<T>> GetPagedReponseAsync(int pageNumber, int pageSize)
+  public async Task<IReadOnlyList<T>> GetPagedReponseAsync()
   {
     return await _dbContext
         .Set<T>()
-        .Skip((pageNumber - 1) * pageSize)
-        .Take(pageSize)
+     
         .AsNoTracking()
         .ToListAsync();
   }
@@ -81,4 +80,6 @@ public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : cl
   {
     _dbContext.ChangeTracker.Clear();
   }
+
+  
 }

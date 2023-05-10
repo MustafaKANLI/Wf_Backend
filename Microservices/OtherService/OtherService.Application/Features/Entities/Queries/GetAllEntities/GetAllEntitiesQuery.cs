@@ -37,6 +37,6 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllEntitiesQuery, Page
       UserViewModels.Add(User);
     }
 
-    return new PagedResponse<IEnumerable<EntityViewModel>>(UserViewModels, validFilter.PageNumber, validFilter.PageSize, dataCount);
+    return new PagedResponse<IEnumerable<EntityViewModel>>(UserViewModels);
   }
 }
