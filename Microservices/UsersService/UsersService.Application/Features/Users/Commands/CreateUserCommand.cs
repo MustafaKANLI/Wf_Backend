@@ -15,7 +15,7 @@ public class CreateUserCommand : IRequest<Response<string>>
     public string FullName { get; set; }
     public int CustomerId { get; set; }
     public int ClaimId { get; set; }
-    public string Phone { get; set; }
+    public string? Phone { get; set; }
 }
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response<string>>
