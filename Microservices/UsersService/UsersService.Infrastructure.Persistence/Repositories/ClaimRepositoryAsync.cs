@@ -5,11 +5,11 @@ using UsersService.Domain.Entities;
 using UsersService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-public class ClaimsRepositoryAsync: GenericRepositoryAsync<Claim>, IClaimRepositoryAsync
+public class ClaimRepositoryAsync: GenericRepositoryAsync<Claim>, IClaimRepositoryAsync
 {
   private readonly DbSet<Claim> _Claims;
 
-  public ClaimsRepositoryAsync(UsersServiceDbContext dbContext) : base(dbContext)
+  public ClaimRepositoryAsync(UsersServiceDbContext dbContext) : base(dbContext)
   {
      _Claims = dbContext.Claims;
   }
