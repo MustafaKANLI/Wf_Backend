@@ -8,7 +8,7 @@ namespace UsersService.Application.Features.Claims.Commands;
 
 public class CreateClaimCommand : IRequest<Response<string>>
 {
-    public int Id { get; set; }
+   
     public string Name { get; set; }
 
 }
