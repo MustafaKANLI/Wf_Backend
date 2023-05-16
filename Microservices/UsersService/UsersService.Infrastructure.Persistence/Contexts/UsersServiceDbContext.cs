@@ -16,6 +16,7 @@ public class UsersServiceDbContext: DbContext
   public DbSet<Claim> Claims { get; set; }
   public DbSet<JobComment> JobComments { get; set; }
   public DbSet<JobFile> JobFiles { get; set; }
+  public DbSet<JobFollower> JobFollowers { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
   {
