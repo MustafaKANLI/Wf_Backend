@@ -32,6 +32,7 @@ public static class ServiceRegistration
     services.AddScoped<IJobCommentRepositoryAsync, JobCommentRepositoryAsync>();
     services.AddScoped<IJobFileRepositoryAsync, JobFileRepositoryAsync>();
     services.AddScoped<IJobFollowerRepositoryAsync, JobFollowerRepositoryAsync>();
+    services.AddScoped<IJobPriorityRepositoryAsync, JobPriorityRepositoryAsync>();
 
     }
 }
