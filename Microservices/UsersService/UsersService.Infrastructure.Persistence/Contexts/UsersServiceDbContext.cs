@@ -19,6 +19,7 @@ public class UsersServiceDbContext: DbContext
   public DbSet<JobFollower> JobFollowers { get; set; }
   public DbSet<JobPriority> JobPriorities { get; set; }
   public DbSet<JobQA> JobQAs { get; set; }
+  public DbSet<Job> Jobs { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
   {
