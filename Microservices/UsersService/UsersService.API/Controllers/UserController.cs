@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Common.Parameters;
 using MassTransit;
 using Common.Contracts.Entities;
+using UsersService.Application.Features.Users.Queries.GetById;
 
 public class UserController : BaseApiController
 {
@@ -30,8 +31,16 @@ public class UserController : BaseApiController
     return Ok(await Mediator.Send(new GetAllUsersQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
   }
 
-  // GET: api/<controller>/TestGetEntityData/{id}
-  [HttpGet("/api/TestGetEntityData/{id}")]
+
+    // GET: api/<controller>/id
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
+    }
+
+    // GET: api/<controller>/TestGetEntityData/{id}
+    [HttpGet("/api/TestGetEntityData/{id}")]
   public async Task<IActionResult> TestGetEntityData(int id)
   {
     return Ok(await _client.GetResponse<GetEntityDataResult>(new { Id = id }));
