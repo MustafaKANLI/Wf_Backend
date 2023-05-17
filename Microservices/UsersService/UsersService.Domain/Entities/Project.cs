@@ -9,7 +9,6 @@ namespace UsersService.Domain.Entities
 {
     public class Project : AuditableBaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int CustomerId { get; set; }
         public string Code { get; set; }
