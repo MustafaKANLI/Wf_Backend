@@ -23,6 +23,8 @@ public class UsersServiceDbContext: DbContext
   public DbSet<JobStatus> JobStatuses { get; set; }
   public DbSet<JobTask> JobTasks { get; set; }
   public DbSet<JobType> JobTypes { get; set; }
+  public DbSet<Project> Projects { get; set; }
+
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
   {

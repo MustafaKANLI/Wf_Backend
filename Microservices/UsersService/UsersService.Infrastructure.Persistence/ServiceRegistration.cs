@@ -38,6 +38,8 @@ public static class ServiceRegistration
     services.AddScoped<IJobStatusRepositoryAsync, JobStatusRepositoryAsync>();
     services.AddScoped<IJobTaskRepositoryAsync, JobTaskRepositoryAsync>();
     services.AddScoped<IJobTypeRepositoryAsync, JobTypeRepositoryAsync>();
+    services.AddScoped<IProjectRepositoryAsync, ProjectRepositoryAsync>();
+
 
     }
 }
