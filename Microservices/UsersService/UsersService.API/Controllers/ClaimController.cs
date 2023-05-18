@@ -8,7 +8,6 @@ using Common.Parameters;
 using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.Claims.Queries.GetById;
-using UsersService.Application.Features.Claims.Commands;
 
 public class ClaimController : BaseApiController
 {
