@@ -9,11 +9,12 @@ using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.Customers.Queries.GetById;
 
+
 public class CustomerController : BaseApiController
 {
 
   // POST api/<controller>
-  [HttpPost]
+  [HttpPost("/api/Customers/Add")]
   public async Task<IActionResult> Create(CreateCustomerCommand command)
   {
     return Ok(await Mediator.Send(command));
@@ -32,6 +33,19 @@ public class CustomerController : BaseApiController
     {
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
+
+    // DELETE: api/<controller>/id
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteCustomerCommand { Id = id };
+        var result = await Mediator.Send(command);
+       
+        return Ok(result);
+    }
+
+
+
 
     //// GET: api/<controller>
     //[HttpGet("Search")]

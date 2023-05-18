@@ -3,6 +3,7 @@
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Common.Exceptions;
 
 public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : class
 {
@@ -42,13 +43,24 @@ public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : cl
     await _dbContext.SaveChangesAsync();
   }
 
-  public async Task DeleteAsync(T entity)
-  {
-    _dbContext.Set<T>().Remove(entity);
-    await _dbContext.SaveChangesAsync();
-  }
+    public async Task DeleteAsync(int id)
+    {
+        var entity = await _dbContext.Set<T>().FindAsync(id);
+        var entitySetName =  _dbContext.Model.FindEntityType(typeof(T)).GetTableName();
+        if (entity != null)
+        {
+            _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+        else
+        {
+            throw new ApiException(entitySetName + " cannot found!");
+        }
+     
+    }
 
-  public async Task<IReadOnlyList<T>> GetAllAsync()
+
+    public async Task<IReadOnlyList<T>> GetAllAsync()
   {
     return await _dbContext
          .Set<T>()

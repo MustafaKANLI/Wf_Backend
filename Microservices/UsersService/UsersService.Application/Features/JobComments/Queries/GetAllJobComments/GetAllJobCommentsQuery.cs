@@ -34,10 +34,11 @@ public class GetAllJobCommentsQueryHandler : IRequestHandler<GetAllJobCommentsQu
 
     foreach (var p in JobComments)
     {
-            var Job = await _JobRepository.GetByIdAsync(p.JobId);
       var JobComment = p.Adapt<JobCommentViewModel>();
       JobCommentsViewModels.Add(JobComment);
-            JobComment.JobName = Job.Name;
+
+      var Job = await _JobRepository.GetByIdAsync(p.JobId);
+      JobComment.JobName = Job.Name;
 
 
     }
