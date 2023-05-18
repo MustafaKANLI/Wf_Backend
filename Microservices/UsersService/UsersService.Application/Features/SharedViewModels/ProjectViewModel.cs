@@ -12,6 +12,7 @@ public class ProjectViewModel
     public int AnalysisApproverUserId { get; set; }
     public string AnalysisApproverUserName { get; set; }
     public int DayApproverUserId { get; set; }
+    public string DayApproverUserName { get; set; }
     public bool? IsActive { get; set; }
 
 }

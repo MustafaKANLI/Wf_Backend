@@ -17,11 +17,13 @@ public class GetAllProjectsQuery : IRequest<PagedResponse<IEnumerable<ProjectVie
 public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, PagedResponse<IEnumerable<ProjectViewModel>>>
 {
     private readonly IProjectRepositoryAsync _ProjectsRepository;
-    private readonly IUserRepositoryAsync _UsersRepository;
-  public GetAllProjectsQueryHandler(IProjectRepositoryAsync ProjectsRepository, IUserRepositoryAsync usersRepository)
+    private readonly ICustomerRepositoryAsync _CustomerRepository;
+    private readonly IUserRepositoryAsync _UserRepository;
+    public GetAllProjectsQueryHandler(IProjectRepositoryAsync ProjectsRepository, ICustomerRepositoryAsync CustomerRepository, IUserRepositoryAsync userRepository)
     {
         _ProjectsRepository = ProjectsRepository;
-        _UsersRepository = usersRepository;
+        _CustomerRepository = CustomerRepository;
+        _UserRepository = userRepository;
     }
 
     public async Task<PagedResponse<IEnumerable<ProjectViewModel>>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
@@ -35,6 +37,18 @@ public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, P
     {
         var Project = p.Adapt<ProjectViewModel>();
         ProjectsViewModels.Add(Project);
+
+        var Customer = await _CustomerRepository.GetByIdAsync(p.CustomerId);
+        Project.CustomerName = Customer.Name;
+
+        var Manager = await _UserRepository.GetByIdAsync(p.ManagerUserId);
+        Project.ManagerUserName = Manager.FullName;
+
+        var DayApprover = await _UserRepository.GetByIdAsync(p.DayApproverUserId);
+        Project.DayApproverUserName = DayApprover.FullName;
+
+        var AnalysisApprover = await _UserRepository.GetByIdAsync(p.AnalysisApproverUserId);
+        Project.AnalysisApproverUserName = AnalysisApprover.FullName;
 
     }
 
