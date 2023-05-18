@@ -28,14 +28,14 @@ public class CustomerController : BaseApiController
     }
 
     // GET: api/<controller>/id
-    [HttpGet("/api/Customers/getById/{id}")]
+    [HttpGet("/api/Customers/getbyid")]
     public async Task<IActionResult> GetById(int id)
     {
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
     // DELETE: api/<controller>/id
-    [HttpDelete("/api/Customers/Delete/{id}")]
+    [HttpDelete("/api/Customers/delete")]
     public async Task<IActionResult> Delete(int id)
     {
         var command = new DeleteCustomerCommand { Id = id };
