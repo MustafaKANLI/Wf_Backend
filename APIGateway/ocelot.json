@@ -2,7 +2,7 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/UsersService/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Update", "Delete" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Update", "PUT", "PATCH", "Delete" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -15,7 +15,7 @@
     },
     {
       "UpstreamPathTemplate": "/OtherService/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Update", "Delete" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Update", "PUT", "PATCH", "Delete" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -28,7 +28,7 @@
     },
     {
       "UpstreamPathTemplate": "/AuthService/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Update", "Delete" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Update", "PUT", "PATCH", "Delete" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

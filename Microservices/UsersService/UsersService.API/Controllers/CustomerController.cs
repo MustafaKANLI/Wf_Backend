@@ -13,35 +13,42 @@ using UsersService.Application.Features.Customers.Queries.GetById;
 public class CustomerController : BaseApiController
 {
 
-  // POST api/<controller>
-  [HttpPost("/api/Customers/Add")]
-  public async Task<IActionResult> Create(CreateCustomerCommand command)
-  {
-    return Ok(await Mediator.Send(command));
-  }
+    // POST api/<controller>
+    [HttpPost("/api/Customers/add")]
+    public async Task<IActionResult> Create(CreateCustomerCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
 
-  // GET: api/<controller>
-  [HttpGet]
-  public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
-  {
-    return Ok(await Mediator.Send(new GetAllCustomersQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
-  }
+    // GET: api/<controller>
+    [HttpGet("/api/Customers/getall")]
+    public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
+    {
+        return Ok(await Mediator.Send(new GetAllCustomersQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
+    }
 
     // GET: api/<controller>/id
-    [HttpGet("{id}")]
+    [HttpGet("/api/Customers/getById/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
     // DELETE: api/<controller>/id
-    [HttpDelete("{id}")]
+    [HttpDelete("/api/Customers/Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var command = new DeleteCustomerCommand { Id = id };
         var result = await Mediator.Send(command);
        
         return Ok(result);
+    }
+
+    // Put: api/<controller>
+    [HttpPut("/api/Customers/update")]
+    public async Task<IActionResult> Update(UpdateCustomerCommand command)
+    {
+        return Ok(await Mediator.Send(command));
     }
 
 
