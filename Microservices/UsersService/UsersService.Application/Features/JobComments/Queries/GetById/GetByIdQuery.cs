@@ -18,10 +18,12 @@ public class GetByIdQueryHandler : IRequestHandler<GetByIdQuery, Response<JobCom
 {
     private readonly IJobCommentRepositoryAsync _JobCommentRepository;
     private readonly IJobRepositoryAsync _JobRepository;
-    public GetByIdQueryHandler(IJobCommentRepositoryAsync JobCommentRepository, IJobRepositoryAsync JobRepository)
+    private readonly IUserRepositoryAsync _UserRepository;
+    public GetByIdQueryHandler(IJobCommentRepositoryAsync JobCommentRepository, IJobRepositoryAsync JobRepository, IUserRepositoryAsync userRepository)
     {
         _JobCommentRepository = JobCommentRepository;
         _JobRepository = JobRepository;
+        _UserRepository = userRepository;
     }
 
     public async Task<Response<JobCommentViewModel>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
@@ -43,6 +45,13 @@ public class GetByIdQueryHandler : IRequestHandler<GetByIdQuery, Response<JobCom
         }
 
         JobComment.JobName = Job.Name;
+
+        var User = await _UserRepository.GetByIdAsync(result.UserId);
+        if (User == null)
+        {
+            throw new ApiException("User cannot found!");
+        }
+        JobComment.UserName = User.FullName;
 
 
         return new Response<JobCommentViewModel>(JobComment.Adapt<JobCommentViewModel>());

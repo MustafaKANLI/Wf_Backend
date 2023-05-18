@@ -19,10 +19,12 @@ public class GetAllJobCommentsQueryHandler : IRequestHandler<GetAllJobCommentsQu
 {
     private readonly IJobCommentRepositoryAsync _JobCommentsRepository;
     private readonly IJobRepositoryAsync _JobRepository;
-    public GetAllJobCommentsQueryHandler(IJobCommentRepositoryAsync JobCommentsRepository, IJobRepositoryAsync JobRepository)
+    private readonly IUserRepositoryAsync _UserRepository;
+    public GetAllJobCommentsQueryHandler(IJobCommentRepositoryAsync JobCommentsRepository, IJobRepositoryAsync JobRepository, IUserRepositoryAsync userRepository)
     {
         _JobCommentsRepository = JobCommentsRepository;
         _JobRepository = JobRepository;
+        _UserRepository = userRepository;
     }
 
     public async Task<PagedResponse<IEnumerable<JobCommentViewModel>>> Handle(GetAllJobCommentsQuery request, CancellationToken cancellationToken)
@@ -37,14 +39,20 @@ public class GetAllJobCommentsQueryHandler : IRequestHandler<GetAllJobCommentsQu
             var JobComment = p.Adapt<JobCommentViewModel>();
             JobCommentsViewModels.Add(JobComment);
 
-            //var Job = await _JobRepository.GetByIdAsync(p.JobId);
-            //if (Job == null)
-            //{
-            //    throw new ApiException("Job cannot found!");
-            //}
+            var Job = await _JobRepository.GetByIdAsync(p.JobId);
+            if (Job == null)
+            {
+                throw new ApiException("Job cannot found!");
+            }
 
-            //JobComment.JobName = Job.Name;
+            JobComment.JobName = Job.Name;
 
+            var User = await _UserRepository.GetByIdAsync(p.UserId);
+            if(User == null)
+            {
+                throw new ApiException("User cannot found!");
+            }
+            JobComment.UserName = User.FullName;
 
         }
 

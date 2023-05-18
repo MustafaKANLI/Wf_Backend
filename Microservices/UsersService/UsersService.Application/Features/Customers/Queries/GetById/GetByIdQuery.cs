@@ -10,30 +10,30 @@ using Common.Exceptions;
 
 public class GetByIdQuery : IRequest<Response<CustomerViewModel>>
 {
-  public int Id { get; set; }
-  
+    public int Id { get; set; }
+
 }
 
 public class GetByIdQueryHandler : IRequestHandler<GetByIdQuery, Response<CustomerViewModel>>
 {
-  private readonly ICustomerRepositoryAsync _CustomerRepository;
-  public GetByIdQueryHandler(ICustomerRepositoryAsync CustomerRepository)
-  {
-    _CustomerRepository = CustomerRepository;
-  }
+    private readonly ICustomerRepositoryAsync _CustomerRepository;
+    public GetByIdQueryHandler(ICustomerRepositoryAsync CustomerRepository)
+    {
+        _CustomerRepository = CustomerRepository;
+    }
 
-  public async Task<Response<CustomerViewModel>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
-  {
+    public async Task<Response<CustomerViewModel>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+    {
 
-    var Customer = await _CustomerRepository.GetByIdAsync(request.Id);
+        var Customer = await _CustomerRepository.GetByIdAsync(request.Id);
 
-    
-        if(Customer == null)
+
+        if (Customer == null)
         {
             throw new ApiException("Customer Not Found!");
         }
-   
 
-    return new Response<CustomerViewModel>(Customer.Adapt<CustomerViewModel>());
-  }
+
+        return new Response<CustomerViewModel>(Customer.Adapt<CustomerViewModel>());
+    }
 }

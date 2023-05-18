@@ -10,30 +10,30 @@ using Common.Exceptions;
 
 public class GetByIdQuery : IRequest<Response<ClaimViewModel>>
 {
-  public int Id { get; set; }
-  
+    public int Id { get; set; }
+
 }
 
 public class GetByIdQueryHandler : IRequestHandler<GetByIdQuery, Response<ClaimViewModel>>
 {
-  private readonly IClaimRepositoryAsync _ClaimRepository;
-  public GetByIdQueryHandler(IClaimRepositoryAsync ClaimRepository)
-  {
-    _ClaimRepository = ClaimRepository;
-  }
+    private readonly IClaimRepositoryAsync _ClaimRepository;
+    public GetByIdQueryHandler(IClaimRepositoryAsync ClaimRepository)
+    {
+        _ClaimRepository = ClaimRepository;
+    }
 
-  public async Task<Response<ClaimViewModel>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
-  {
+    public async Task<Response<ClaimViewModel>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+    {
 
-    var Claim = await _ClaimRepository.GetByIdAsync(request.Id);
+        var Claim = await _ClaimRepository.GetByIdAsync(request.Id);
 
-    
-        if(Claim == null)
+
+        if (Claim == null)
         {
             throw new ApiException("Claim Not Found!");
         }
-   
 
-    return new Response<ClaimViewModel>(Claim.Adapt<ClaimViewModel>());
-  }
+
+        return new Response<ClaimViewModel>(Claim.Adapt<ClaimViewModel>());
+    }
 }
