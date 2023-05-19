@@ -20,9 +20,13 @@ public class UpdateJobCommentCommand : IRequest<Response<string>>
 public class UpdateJobCommentCommandHandler : IRequestHandler<UpdateJobCommentCommand, Response<string>>
 {
     private readonly IJobCommentRepositoryAsync _JobCommentRepository;
-    public UpdateJobCommentCommandHandler(IJobCommentRepositoryAsync JobCommentRepository)
+    private readonly IJobRepositoryAsync _JobRepository;
+    private readonly IUserRepositoryAsync _UserRepository;
+    public UpdateJobCommentCommandHandler(IJobCommentRepositoryAsync JobCommentRepository, IJobRepositoryAsync jobRepository, IUserRepositoryAsync userRepository)
     {
         _JobCommentRepository = JobCommentRepository;
+        _JobRepository = jobRepository;
+        _UserRepository = userRepository;
     }
 
     public async Task<Response<string>> Handle(UpdateJobCommentCommand request, CancellationToken cancellationToken)
@@ -31,6 +35,18 @@ public class UpdateJobCommentCommandHandler : IRequestHandler<UpdateJobCommentCo
         if (JobComment == null)
         {
             throw new ApiException("JobComment not found");
+        }
+
+        var Job = await _JobRepository.GetByIdAsync(request.JobId);
+        if (Job == null)
+        {
+            throw new ApiException("Job cannot found!");
+        }
+
+        var User = await _UserRepository.GetByIdAsync(request.UserId);
+        if (User == null)
+        {
+            throw new ApiException("User cannot found!");
         }
 
         JobComment = request.Adapt<JobComment>();

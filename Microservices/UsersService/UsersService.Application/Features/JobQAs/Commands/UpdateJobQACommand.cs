@@ -2,14 +2,14 @@
 using Common.Wrappers;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Domain.Entities;
 
 namespace UsersService.Application.Features.JobQAs.Commands;
 
-public class CreateJobQACommand : IRequest<Response<string>>
+public class UpdateJobQACommand : IRequest<Response<string>>
 {
+    public int Id { get; set; }
     public int JobId { get; set; }
     public int QuestionUserId { get; set; }
     public DateTime QuestionDate { get; set; }
@@ -18,24 +18,30 @@ public class CreateJobQACommand : IRequest<Response<string>>
     public DateTime? AnswerDate { get; set; }
     public string? Answer { get; set; }
 
-
 }
 
-public class CreateJobQACommandHandler : IRequestHandler<CreateJobQACommand, Response<string>>
+public class UpdateJobQACommandHandler : IRequestHandler<UpdateJobQACommand, Response<string>>
 {
     private readonly IJobQARepositoryAsync _JobQARepository;
     private readonly IJobRepositoryAsync _JobRepository;
     private readonly IUserRepositoryAsync _UserRepository;
-    public CreateJobQACommandHandler(IJobQARepositoryAsync JobQARepository, IJobRepositoryAsync jobRepository, IUserRepositoryAsync userRepository)
+
+    public UpdateJobQACommandHandler(IJobQARepositoryAsync JobQARepository, IJobRepositoryAsync jobRepository, IUserRepositoryAsync userRepository)
     {
         _JobQARepository = JobQARepository;
         _JobRepository = jobRepository;
         _UserRepository = userRepository;
     }
 
-    public async Task<Response<string>> Handle(CreateJobQACommand request, CancellationToken cancellationToken)
+    public async Task<Response<string>> Handle(UpdateJobQACommand request, CancellationToken cancellationToken)
     {
-        var JobQA = request.Adapt<JobQA>();
+        var JobQA = await _JobQARepository.GetByIdAsync(request.Id);
+        if (JobQA == null)
+        {
+            throw new ApiException("JobQA not found");
+        }
+
+        JobQA = request.Adapt<JobQA>();
 
         var Job = await _JobRepository.GetByIdAsync(request.JobId);
         if (Job == null)
@@ -49,8 +55,8 @@ public class CreateJobQACommandHandler : IRequestHandler<CreateJobQACommand, Res
             throw new ApiException("User cannot found!");
         }
 
-        await _JobQARepository.AddAsync(JobQA);
+        await _JobQARepository.UpdateAsync(JobQA);
 
-        return new Response<string>(JobQA.Id.ToString(), "JobQA created");
+        return new Response<string>(JobQA.Id.ToString(), "JobQA Updated");
     }
 }
