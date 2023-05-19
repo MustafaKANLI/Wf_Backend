@@ -8,6 +8,7 @@ using Common.Parameters;
 using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.JobComments.Queries.GetById;
+using UsersService.Application.Features.JobCommentsByJobId.Queries.GetAllJobCommentsByJobId;
 
 public class JobCommentController : BaseApiController
 {
@@ -31,6 +32,16 @@ public class JobCommentController : BaseApiController
     public async Task<IActionResult> GetById(int id)
     {
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
+    }
+
+    // GET: api/<controller>
+    [HttpGet("/api/JobComments/getlistbyjobid")]
+    public async Task<IActionResult> GetListByJobId(int JobId)
+    {
+        var query = new GetAllJobCommentsByJobIdQuery { JobId = JobId };
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
     }
 
     // DELETE: api/<controller>/id

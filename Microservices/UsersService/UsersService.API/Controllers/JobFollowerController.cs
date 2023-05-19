@@ -14,17 +14,24 @@ public class JobFollowerController : BaseApiController
 {
 
     // POST api/<controller>
-    [HttpPost]
+    [HttpPost("/api/JobFollowers/add")]
     public async Task<IActionResult> Create(CreateJobFollowerCommand command)
     {
         return Ok(await Mediator.Send(command));
     }
 
     // GET: api/<controller>
-    [HttpGet]
+    [HttpGet("/api/JobFollowers/getall")]
     public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
     {
         return Ok(await Mediator.Send(new GetAllJobFollowersQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
+    }
+
+    // GET: api/<controller>/id
+    [HttpGet("/api/JobFollowers/getbyid")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
     // GET: api/<controller>
@@ -35,13 +42,6 @@ public class JobFollowerController : BaseApiController
         var result = await Mediator.Send(query);
 
         return Ok(result);
-    }
-
-    // GET: api/<controller>/id
-    [HttpGet("/api/JobFollowers/getbyid")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
     // DELETE: api/<controller>/id

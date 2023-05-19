@@ -4,6 +4,8 @@ using UsersService.Application.Interfaces.Repositories;
 using UsersService.Domain.Entities;
 using UsersService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class JobCommentRepositoryAsync: GenericRepositoryAsync<JobComment>, IJobCommentRepositoryAsync
 {
@@ -13,4 +15,12 @@ public class JobCommentRepositoryAsync: GenericRepositoryAsync<JobComment>, IJob
   {
      _JobComments = dbContext.JobComments;
   }
+
+    public async Task<IReadOnlyList<JobComment>> GetJobCommentsByJobIdAsync(int JobId)
+    {
+        return await _JobComments
+            .Where(j => j.JobId == JobId)
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }
