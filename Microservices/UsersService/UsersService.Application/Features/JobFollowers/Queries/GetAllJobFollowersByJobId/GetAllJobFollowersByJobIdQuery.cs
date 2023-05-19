@@ -1,4 +1,4 @@
-﻿namespace UsersService.Application.Features.JobFollowers.Queries.GetAllJobFollowers;
+﻿namespace UsersService.Application.Features.JobFollowersByJobId.Queries.GetAllJobFollowersByJobId;
 
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Application.Features.SharedViewModels;
@@ -7,30 +7,28 @@ using Common.Parameters;
 using MediatR;
 using Mapster;
 using Common.Exceptions;
-using UsersService.Domain.Entities;
 
-public class GetAllJobFollowersQuery : IRequest<PagedResponse<IEnumerable<JobFollowerViewModel>>>
+public class GetAllJobFollowersByJobIdQuery : IRequest<ListedResponse<IEnumerable<JobFollowerViewModel>>>
 {
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
+    public int JobId { get; set; }
 }
 
-public class GetAllJobFollowersQueryHandler : IRequestHandler<GetAllJobFollowersQuery, PagedResponse<IEnumerable<JobFollowerViewModel>>>
+public class GetAllJobFollowersByJobIdQueryHandler : IRequestHandler<GetAllJobFollowersByJobIdQuery, ListedResponse<IEnumerable<JobFollowerViewModel>>>
 {
     private readonly IJobFollowerRepositoryAsync _JobFollowerRepository;
     private readonly IJobRepositoryAsync _JobRepository;
     private readonly IUserRepositoryAsync _UserRepository;
-    public GetAllJobFollowersQueryHandler(IJobFollowerRepositoryAsync JobFollowerRepository, IJobRepositoryAsync jobRepository, IUserRepositoryAsync userRepository)
+    public GetAllJobFollowersByJobIdQueryHandler(IJobFollowerRepositoryAsync JobFollowerRepository, IJobRepositoryAsync JobRepositoryAsync, IUserRepositoryAsync UserRepositoryAsync)
     {
         _JobFollowerRepository = JobFollowerRepository;
-        _JobRepository = jobRepository;
-        _UserRepository = userRepository;
+        _JobRepository = JobRepositoryAsync;
+        _UserRepository = UserRepositoryAsync;
     }
 
-    public async Task<PagedResponse<IEnumerable<JobFollowerViewModel>>> Handle(GetAllJobFollowersQuery request, CancellationToken cancellationToken)
+    public async Task<ListedResponse<IEnumerable<JobFollowerViewModel>>> Handle(GetAllJobFollowersByJobIdQuery request, CancellationToken cancellationToken)
     {
-        var dataCount = await _JobFollowerRepository.GetDataCount();
-        var JobFollowers = await _JobFollowerRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
+        var JobFollowers = await _JobFollowerRepository.GetJobFollowersByJobIdAsync(request.JobId);
+        var dataCount = JobFollowers.Count;
 
         var JobFollowerViewModels = new List<JobFollowerViewModel>();
 
@@ -55,6 +53,7 @@ public class GetAllJobFollowersQueryHandler : IRequestHandler<GetAllJobFollowers
             JobFollower.UserName = User.FullName;
         }
 
-        return new PagedResponse<IEnumerable<JobFollowerViewModel>>(JobFollowerViewModels, request.PageNumber, request.PageSize, dataCount);
+        return new ListedResponse<IEnumerable<JobFollowerViewModel>>(JobFollowerViewModels, dataCount);
     }
+
 }
