@@ -1,14 +1,15 @@
-﻿using Common.Wrappers;
+﻿using Common.Exceptions;
+using Common.Wrappers;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Domain.Entities;
 
 namespace UsersService.Application.Features.Jobs.Commands;
 
-public class CreateJobCommand : IRequest<Response<string>>
+public class UpdateJobCommand : IRequest<Response<string>>
 {
+    public int Id { get; set; }
     public int ProjectId { get; set; }
     public int JobStatusId { get; set; }
     public int? JobTypeId { get; set; }
@@ -40,25 +41,34 @@ public class CreateJobCommand : IRequest<Response<string>>
     public bool IsActive { get; set; }
     public int? SprintOrder { get; set; }
 
-
 }
 
-public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Response<string>>
+public class UpdateJobCommandHandler : IRequestHandler<UpdateJobCommand, Response<string>>
 {
     private readonly IJobRepositoryAsync _JobRepository;
-    public CreateJobCommandHandler(IJobRepositoryAsync JobRepository)
+    private readonly IUserRepositoryAsync _UserRepository;
+
+    public UpdateJobCommandHandler(IJobRepositoryAsync jobRepository, IUserRepositoryAsync userRepository)
     {
-        _JobRepository = JobRepository;
+        _JobRepository = jobRepository;
+        _UserRepository = userRepository;
     }
 
-    public async Task<Response<string>> Handle(CreateJobCommand request, CancellationToken cancellationToken)
+    public async Task<Response<string>> Handle(UpdateJobCommand request, CancellationToken cancellationToken)
     {
-        var Job = request.Adapt<Job>();
+
+        var Job = await _JobRepository.GetByIdAsync(request.Id);
+        if (Job == null)
+        {
+            throw new ApiException("Job cannot found!");
+        }
+
+        Job = request.Adapt<Job>();
 
         // TODO: İlgili id'lere sahip kullanıcı, proje, durum, tür vb şeylerin olup olmadığının kontrolü sağlanacak
 
-        await _JobRepository.AddAsync(Job);
+        await _JobRepository.UpdateAsync(Job);
 
-        return new Response<string>(Job.Id.ToString(), "Job created");
+        return new Response<string>(Job.Id.ToString(), "Job Updated");
     }
 }
