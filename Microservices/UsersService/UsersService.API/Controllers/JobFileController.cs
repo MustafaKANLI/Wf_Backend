@@ -8,9 +8,9 @@ using Common.Parameters;
 using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.JobFiles.Queries.GetById;
-using UsersService.Application.Features.JobFiles.Queries.DownloadFile;
 using UsersService.Domain.Entities;
 using UsersService.Application.Interfaces.Repositories;
+using UsersService.Application.Features.JobFilesByJobId.Queries.GetAllJobFilesByJobId;
 
 public class JobFileController : BaseApiController
 {
@@ -44,6 +44,16 @@ public class JobFileController : BaseApiController
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
+    // GET: api/<controller>
+    [HttpGet("/api/JobFiles/getlistbyjobid")]
+    public async Task<IActionResult> GetListByJobId(int JobId)
+    {
+        var query = new GetAllJobFilesByJobIdQuery { JobId = JobId };
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
     // GET: api/<controller>/id
     [HttpGet("/api/JobFiles/DownloadFile")]
     public async Task<IActionResult> DownloadFile(int jobFileId)
@@ -52,8 +62,6 @@ public class JobFileController : BaseApiController
 
         byte[] file = Convert.FromBase64String(Convert.ToBase64String(result.FileContent)); //Base64 kayıtlı bilgiyi getireceğiz
         return File(file, result.FileContent, result.Name); //content type güncelleyeceğiz //"text/css"
-
-
     }
 
     private IActionResult File(byte[] file, byte[] fileContent, string name)
