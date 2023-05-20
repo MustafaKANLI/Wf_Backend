@@ -11,25 +11,46 @@ public class CreateJobFileCommand : IRequest<Response<string>>
 {
     public int JobId { get; set; }
     public int UserId { get; set; }
-    public List<IFormFile> file { get; set; }
-   
+    public IFormFile File { get; set; }
+
 
 }
 
 public class CreateJobFileCommandHandler : IRequestHandler<CreateJobFileCommand, Response<string>>
 {
-  private readonly IJobFileRepositoryAsync _JobFileRepository;
-  public CreateJobFileCommandHandler(IJobFileRepositoryAsync JobFileRepository)
-  {
+    private readonly IJobFileRepositoryAsync _JobFileRepository;
+    public CreateJobFileCommandHandler(IJobFileRepositoryAsync JobFileRepository)
+    {
         _JobFileRepository = JobFileRepository;
-  }
+    }
 
-  public async Task<Response<string>> Handle(CreateJobFileCommand request, CancellationToken cancellationToken)
-  {
-    var JobFile = request.Adapt<JobFile>();
+    public async Task<Response<string>> Handle(CreateJobFileCommand request, CancellationToken cancellationToken)
+    {
+        byte[] fileContent = null;
+        if (request.File != null && request.File.Length > 0)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await request.File.CopyToAsync(memoryStream);
+                fileContent = memoryStream.ToArray();
+            }
+        }
 
-    await _JobFileRepository.AddAsync(JobFile);
+        var JobFile = request.Adapt<JobFile>();
 
-    return new Response<string>(JobFile.Id.ToString(), "JobFile created");
-  }
+        // TODO: İlgili id'lere sahip kullanıcı ve işin olup olmadığının kontrolü sağlanacak
+
+        JobFile.FileContent = fileContent;
+        JobFile.JobId = request.JobId;
+        JobFile.UserId = request.UserId;
+        JobFile.Date = DateTime.Now;
+        JobFile.ContentType = request.File.ContentType;
+        JobFile.Name = request.File.FileName;
+        JobFile.FileSize = (int)request.File.Length;
+
+
+        await _JobFileRepository.AddAsync(JobFile);
+
+        return new Response<string>(JobFile.Id.ToString(), "JobFile created");
+    }
 }
