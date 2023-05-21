@@ -30,12 +30,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -52,12 +46,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -104,9 +92,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<int>("CreateUserId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime?>("DayApproveDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -130,16 +115,15 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<int?>("JobPriorityId")
+                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<int>("JobStatusId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("JobTypeId")
+                        .IsRequired()
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("ManagerApproveDate")
                         .HasColumnType("timestamp with time zone");
@@ -160,7 +144,8 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Sprint")
+                    b.Property<int?>("SprintId")
+                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<int?>("SprintOrder")
@@ -177,6 +162,28 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnalysisApproverUserId");
+
+                    b.HasIndex("AssignedUserId");
+
+                    b.HasIndex("CreateUserId");
+
+                    b.HasIndex("DayApproverUserId");
+
+                    b.HasIndex("JobPriorityId");
+
+                    b.HasIndex("JobStatusId");
+
+                    b.HasIndex("JobTypeId");
+
+                    b.HasIndex("ManagerUserId");
+
+                    b.HasIndex("ParentJobId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("SprintId");
+
                     b.ToTable("Jobs");
                 });
 
@@ -192,22 +199,20 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("JobId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("JobComments");
                 });
@@ -223,9 +228,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
@@ -243,9 +245,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<int>("JobId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -254,6 +253,10 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("JobFiles");
                 });
@@ -266,19 +269,17 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("JobId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("JobFollowers");
                 });
@@ -290,12 +291,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -323,14 +318,8 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<int?>("AnswerUserId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("JobId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Question")
                         .IsRequired()
@@ -344,6 +333,12 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnswerUserId");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("QuestionUserId");
+
                     b.ToTable("JobQAs");
                 });
 
@@ -355,14 +350,8 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -396,9 +385,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<int>("AssignedUserId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Details")
                         .IsRequired()
                         .HasColumnType("text");
@@ -415,13 +401,14 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<int>("JobId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignedUserId");
+
+                    b.HasIndex("JobId");
 
                     b.ToTable("JobTasks");
                 });
@@ -434,14 +421,8 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Details")
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -467,9 +448,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
@@ -479,9 +457,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<bool?>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("ManagerUserId")
                         .HasColumnType("integer");
 
@@ -490,6 +465,14 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnalysisApproverUserId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("DayApproverUserId");
+
+                    b.HasIndex("ManagerUserId");
 
                     b.ToTable("Projects");
                 });
@@ -502,12 +485,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
@@ -515,6 +492,10 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ProjectUsers");
                 });
@@ -527,16 +508,10 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -547,6 +522,8 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Sprints");
                 });
@@ -561,9 +538,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("ClaimId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
@@ -582,9 +556,6 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsLocked")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
@@ -598,7 +569,277 @@ namespace UsersService.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClaimId");
+
+                    b.HasIndex("CustomerId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.Job", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.User", "AnalysisApproverUser")
+                        .WithMany()
+                        .HasForeignKey("AnalysisApproverUserId");
+
+                    b.HasOne("UsersService.Domain.Entities.User", "AssignedUser")
+                        .WithMany()
+                        .HasForeignKey("AssignedUserId");
+
+                    b.HasOne("UsersService.Domain.Entities.User", "CreateUser")
+                        .WithMany()
+                        .HasForeignKey("CreateUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "DayApproverUser")
+                        .WithMany()
+                        .HasForeignKey("DayApproverUserId");
+
+                    b.HasOne("UsersService.Domain.Entities.JobPriority", "JobPriority")
+                        .WithMany()
+                        .HasForeignKey("JobPriorityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.JobStatus", "JobStatus")
+                        .WithMany()
+                        .HasForeignKey("JobStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.JobType", "JobType")
+                        .WithMany()
+                        .HasForeignKey("JobTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "ManagerUser")
+                        .WithMany()
+                        .HasForeignKey("ManagerUserId");
+
+                    b.HasOne("UsersService.Domain.Entities.Job", "ParentJob")
+                        .WithMany()
+                        .HasForeignKey("ParentJobId");
+
+                    b.HasOne("UsersService.Domain.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.Sprint", "Sprint")
+                        .WithMany()
+                        .HasForeignKey("SprintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnalysisApproverUser");
+
+                    b.Navigation("AssignedUser");
+
+                    b.Navigation("CreateUser");
+
+                    b.Navigation("DayApproverUser");
+
+                    b.Navigation("JobPriority");
+
+                    b.Navigation("JobStatus");
+
+                    b.Navigation("JobType");
+
+                    b.Navigation("ManagerUser");
+
+                    b.Navigation("ParentJob");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Sprint");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.JobComment", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.JobFile", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.JobFollower", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.JobQA", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.User", "AnswerUser")
+                        .WithMany()
+                        .HasForeignKey("AnswerUserId");
+
+                    b.HasOne("UsersService.Domain.Entities.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "QuestionUser")
+                        .WithMany()
+                        .HasForeignKey("QuestionUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnswerUser");
+
+                    b.Navigation("Job");
+
+                    b.Navigation("QuestionUser");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.JobTask", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.User", "AssignedUser")
+                        .WithMany()
+                        .HasForeignKey("AssignedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedUser");
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.Project", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.User", "AnalysisApproverUser")
+                        .WithMany()
+                        .HasForeignKey("AnalysisApproverUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "DayApproverUser")
+                        .WithMany()
+                        .HasForeignKey("DayApproverUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "ManagerUser")
+                        .WithMany()
+                        .HasForeignKey("ManagerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnalysisApproverUser");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("DayApproverUser");
+
+                    b.Navigation("ManagerUser");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.ProjectUser", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.Sprint", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("UsersService.Domain.Entities.User", b =>
+                {
+                    b.HasOne("UsersService.Domain.Entities.Claim", "Claim")
+                        .WithMany()
+                        .HasForeignKey("ClaimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersService.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Claim");
+
+                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }

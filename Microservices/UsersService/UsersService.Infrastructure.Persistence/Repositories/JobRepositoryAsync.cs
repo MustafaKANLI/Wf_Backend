@@ -35,7 +35,7 @@ public class JobRepositoryAsync: GenericRepositoryAsync<Job>, IJobRepositoryAsyn
     public async Task<IReadOnlyList<Job>> GetJobsBySprintAsync(int Sprint)
     {
         return await _Jobs
-            .Where(x => x.Sprint == Sprint)
+            .Where(x => x.SprintId == Sprint)
             .AsNoTracking()
             .ToListAsync();
     }
