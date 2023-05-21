@@ -8,7 +8,7 @@ using Common.Parameters;
 using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.Jobs.Queries.GetById;
-
+using UsersService.Application.Features.JobsByAssignedUserId.Queries.GetAllJobsByAssignedUserId;
 
 public class JobController : BaseApiController
 {
@@ -22,7 +22,7 @@ public class JobController : BaseApiController
 
     // GET: api/<controller>
     [HttpGet("/api/Jobs/getall")]
-    public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
+    public async Task<IActionResult> GetAll([FromQuery] RequestParameter filter)
     {
         return Ok(await Mediator.Send(new GetAllJobsQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
     }
@@ -34,7 +34,14 @@ public class JobController : BaseApiController
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
-   
+    // GET: api/<controller>
+    [HttpGet("/api/Jobs/getjobsbyassigneduserid")]
+    public async Task<IActionResult> GetJobsByAssignedUserId([FromQuery] int AssignedUserId)
+    {
+        return Ok(await Mediator.Send(new GetAllJobsByAssignedUserIdQuery() { AssignedUserId = AssignedUserId }));
+    }
+
+
 
     // DELETE: api/<controller>/id
     [HttpDelete("/api/Jobs/delete")]
