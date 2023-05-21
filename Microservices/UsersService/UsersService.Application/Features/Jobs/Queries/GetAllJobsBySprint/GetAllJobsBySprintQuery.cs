@@ -1,4 +1,4 @@
-﻿namespace UsersService.Application.Features.JobsByProjectId.Queries.GetAllJobsByProjectId;
+﻿namespace UsersService.Application.Features.JobsBySprint.Queries.GetAllJobsBySprint;
 
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Application.Features.SharedViewModels;
@@ -9,12 +9,12 @@ using Mapster;
 using Common.Exceptions;
 
 
-public class GetAllJobsByProjectIdQuery : IRequest<ListedResponse<IEnumerable<JobViewModel>>>
+public class GetAllJobsBySprintQuery : IRequest<ListedResponse<IEnumerable<JobViewModel>>>
 {
-    public int ProjectId { get; set; }
+    public int Sprint { get; set; }
 }
 
-public class GetAllJobsByProjectIdQueryHandler : IRequestHandler<GetAllJobsByProjectIdQuery, ListedResponse<IEnumerable<JobViewModel>>>
+public class GetAllJobsBySprintQueryHandler : IRequestHandler<GetAllJobsBySprintQuery, ListedResponse<IEnumerable<JobViewModel>>>
 {
     private readonly IJobRepositoryAsync _JobRepository;
     private readonly IUserRepositoryAsync _UserRepository;
@@ -23,7 +23,7 @@ public class GetAllJobsByProjectIdQueryHandler : IRequestHandler<GetAllJobsByPro
     private readonly IJobStatusRepositoryAsync _JobStatusRepository;
     private readonly IJobTypeRepositoryAsync _JobTypeRepository;
 
-    public GetAllJobsByProjectIdQueryHandler
+    public GetAllJobsBySprintQueryHandler
     (
         IJobRepositoryAsync JobRepositoryAsync,
         IUserRepositoryAsync UserRepositoryAsync,
@@ -42,9 +42,9 @@ public class GetAllJobsByProjectIdQueryHandler : IRequestHandler<GetAllJobsByPro
         _JobTypeRepository = jobTypeRepository;
     }
 
-    public async Task<ListedResponse<IEnumerable<JobViewModel>>> Handle(GetAllJobsByProjectIdQuery request, CancellationToken cancellationToken)
+    public async Task<ListedResponse<IEnumerable<JobViewModel>>> Handle(GetAllJobsBySprintQuery request, CancellationToken cancellationToken)
     {
-        var Jobs = await _JobRepository.GetJobsByProjectIdAsync(request.ProjectId);
+        var Jobs = await _JobRepository.GetJobsBySprintAsync(request.Sprint);
         var dataCount = Jobs.Count;
 
         var JobViewModels = new List<JobViewModel>();

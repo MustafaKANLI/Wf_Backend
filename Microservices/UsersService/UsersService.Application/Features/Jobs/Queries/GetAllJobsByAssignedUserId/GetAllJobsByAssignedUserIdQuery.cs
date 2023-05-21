@@ -104,7 +104,7 @@ public class GetAllJobsByAssignedUserIdQueryHandler : IRequestHandler<GetAllJobs
             }
             Job.DayApproverUserName = DayApproverUser.FullName;
 
-            var AnalysisApproverUser = await _UserRepository.GetByIdAsync(p.AssignedUserId);
+            var AnalysisApproverUser = await _UserRepository.GetByIdAsync(p.AnalysisApproverUserId);
             if (AnalysisApproverUser == null)
             {
                 throw new ApiException("AnalysisApproverUser cannot found!");
