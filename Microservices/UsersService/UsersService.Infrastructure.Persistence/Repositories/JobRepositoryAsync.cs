@@ -23,4 +23,12 @@ public class JobRepositoryAsync: GenericRepositoryAsync<Job>, IJobRepositoryAsyn
             .AsNoTracking()
             .ToListAsync();
     }
+
+    public async Task<IReadOnlyList<Job>> GetJobsByProjectIdAsync(int ProjectId)
+    {
+        return await _Jobs
+            .Where(x => x.ProjectId == ProjectId)
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

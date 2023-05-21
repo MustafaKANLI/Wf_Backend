@@ -9,6 +9,7 @@ using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.Jobs.Queries.GetById;
 using UsersService.Application.Features.JobsByAssignedUserId.Queries.GetAllJobsByAssignedUserId;
+using UsersService.Application.Features.JobsByProjectId.Queries.GetAllJobsByProjectId;
 
 public class JobController : BaseApiController
 {
@@ -41,7 +42,12 @@ public class JobController : BaseApiController
         return Ok(await Mediator.Send(new GetAllJobsByAssignedUserIdQuery() { AssignedUserId = AssignedUserId }));
     }
 
-
+    // GET: api/<controller>
+    [HttpGet("/api/Jobs/getjobsbyprojectid")]
+    public async Task<IActionResult> GetJobsByProjectId([FromQuery] int ProjectId)
+    {
+        return Ok(await Mediator.Send(new GetAllJobsByProjectIdQuery() { ProjectId = ProjectId }));
+    }
 
     // DELETE: api/<controller>/id
     [HttpDelete("/api/Jobs/delete")]
