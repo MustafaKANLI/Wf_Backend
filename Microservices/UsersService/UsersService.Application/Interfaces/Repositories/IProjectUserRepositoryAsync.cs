@@ -4,4 +4,5 @@ using UsersService.Domain.Entities;
 
 public interface IProjectUserRepositoryAsync : IGenericRepositoryAsync<ProjectUser>
 {
+    Task<IReadOnlyList<ProjectUser>> GetProjectsByUserIdAsync(int UserId);
 }
