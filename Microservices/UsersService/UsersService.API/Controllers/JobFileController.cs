@@ -2,15 +2,12 @@
 
 using UsersService.Application.Features.JobFiles.Commands;
 using UsersService.Application.Features.JobFiles.Queries.GetAllJobFiles;
-
 using Microsoft.AspNetCore.Mvc;
 using Common.Parameters;
-using MassTransit;
-using Common.Contracts.Entities;
 using UsersService.Application.Features.JobFiles.Queries.GetById;
-using UsersService.Domain.Entities;
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Application.Features.JobFilesByJobId.Queries.GetAllJobFilesByJobId;
+
 
 public class JobFileController : BaseApiController
 {
@@ -54,7 +51,7 @@ public class JobFileController : BaseApiController
         return Ok(result);
     }
 
-    // GET: api/<controller>/id
+    // GET: api/<controller>
     [HttpGet("/api/JobFiles/DownloadFile")]
     public async Task<IActionResult> DownloadFile(int jobFileId)
     {
@@ -71,6 +68,16 @@ public class JobFileController : BaseApiController
 
         // Return the file as a downloadable attachment
         return File(file, contentType, name);
+    }
+
+    // DELETE: api/<controller>
+    [HttpDelete("/api/JobFiles/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteJobFileCommand { Id = id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
     }
 
 }
