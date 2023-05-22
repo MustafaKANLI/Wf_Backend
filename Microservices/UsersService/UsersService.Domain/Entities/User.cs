@@ -17,7 +17,8 @@ public class User : AuditableBaseEntity
     public string Email { get; set; }
     public string FullName { get; set; }
     public string? Phone { get; set; }
-    public string Password { get; set; }
+    public byte[]? PWSalt { get; set; }
+    public byte[]? PWHash { get; set; }
     public bool IsActive { get; set; }
     public bool IsLocked { get; set; }
 }

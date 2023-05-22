@@ -12,8 +12,8 @@ using UsersService.Infrastructure.Persistence.Contexts;
 namespace UsersService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(UsersServiceDbContext))]
-    [Migration("20230521221603_AddTableDb")]
-    partial class AddTableDb
+    [Migration("20230522135657_CreateTables")]
+    partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -558,9 +558,11 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsLocked")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<byte[]>("PWHash")
+                        .HasColumnType("bytea");
+
+                    b.Property<byte[]>("PWSalt")
+                        .HasColumnType("bytea");
 
                     b.Property<string>("Phone")
                         .HasColumnType("text");

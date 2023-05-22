@@ -556,9 +556,11 @@ namespace UsersService.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsLocked")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<byte[]>("PWHash")
+                        .HasColumnType("bytea");
+
+                    b.Property<byte[]>("PWSalt")
+                        .HasColumnType("bytea");
 
                     b.Property<string>("Phone")
                         .HasColumnType("text");
