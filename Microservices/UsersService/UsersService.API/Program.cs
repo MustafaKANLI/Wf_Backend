@@ -3,8 +3,6 @@ using Common.Middlewares;
 using Microsoft.AspNetCore.Http.Features;
 using UsersService.API.Extensions;
 using UsersService.Infrastructure.Persistence;
-using UsersService.Application.Interfaces.Repositories;
-using UsersService.Infrastructure.Persistence.Seeds;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,17 +70,7 @@ using (var scope = app.Services.CreateScope())
 {
   var services = scope.ServiceProvider;
 
-  try
-  {
-    var userRepository = services.GetRequiredService<IUserRepositoryAsync>();
-
-    await DefaultUsers.SeedAsync(userRepository);
-
-  }
-  catch (Exception ex)
-  {
-    Console.Error.WriteLine(ex);
-  }
+  
 }
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
