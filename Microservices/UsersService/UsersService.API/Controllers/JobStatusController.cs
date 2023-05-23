@@ -5,8 +5,6 @@ using UsersService.Application.Features.JobStatuses.Queries.GetAllJobStatuses;
 
 using Microsoft.AspNetCore.Mvc;
 using Common.Parameters;
-using MassTransit;
-using Common.Contracts.Entities;
 using UsersService.Application.Features.JobStatuses.Queries.GetById;
 
 
@@ -42,6 +40,13 @@ public class JobStatusController : BaseApiController
         var result = await Mediator.Send(command);
 
         return Ok(result);
+    }
+
+    // Put: api/<controller>
+    [HttpPut("/api/JobStatuses/update")]
+    public async Task<IActionResult> Update(UpdateJobStatusCommand command)
+    {
+        return Ok(await Mediator.Send(command));
     }
 
 }
