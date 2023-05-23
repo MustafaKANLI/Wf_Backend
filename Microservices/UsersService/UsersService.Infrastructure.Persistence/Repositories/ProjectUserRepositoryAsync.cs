@@ -4,7 +4,7 @@ using UsersService.Application.Interfaces.Repositories;
 using UsersService.Domain.Entities;
 using UsersService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using static System.Reflection.Metadata.BlobBuilder;
+
 
 public class ProjectUserRepositoryAsync : GenericRepositoryAsync<ProjectUser>, IProjectUserRepositoryAsync
 {

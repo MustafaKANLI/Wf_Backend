@@ -7,25 +7,20 @@ using Microsoft.EntityFrameworkCore;
 
 public class ProjectRepositoryAsync : GenericRepositoryAsync<Project>, IProjectRepositoryAsync
 {
-    private readonly DbSet<Project> _Projects;
     private readonly DbSet<ProjectUser> _ProjectUsers;
 
     public ProjectRepositoryAsync(UsersServiceDbContext dbContext) : base(dbContext)
     {
-        _Projects = dbContext.Projects;
         _ProjectUsers = dbContext.ProjectUsers;
     }
 
     public async Task<IReadOnlyList<Project>> GetProjectsByUserIdAsync(int UserId)
     {
-        var projectIds = await _ProjectUsers
-            .Where(x => x.UserId == UserId)
-            .Select(x => x.ProjectId)
-            .ToListAsync();
-
-        var projects = await _Projects
-            .Where(p => projectIds.Contains(p.Id))
-            .ToListAsync();
+        var projects = await _ProjectUsers
+           .Include(pu => pu.Project)
+           .Where(pu => pu.UserId == UserId)
+           .Select(pu => pu.Project)
+           .ToListAsync();
 
         return projects;
     }
