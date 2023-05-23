@@ -1,4 +1,4 @@
-﻿namespace UsersService.Application.Features.JobPrioritys.Queries.GetAllJobPriorities;
+﻿namespace UsersService.Application.Features.JobPriorities.Queries.GetAllJobPriorities;
 
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Application.Features.SharedViewModels;
@@ -25,11 +25,11 @@ public class GetAllJobPrioritiesQueryHandler : IRequestHandler<GetAllJobPrioriti
   public async Task<PagedResponse<IEnumerable<JobPriorityViewModel>>> Handle(GetAllJobPrioritiesQuery request, CancellationToken cancellationToken)
   {
     var dataCount = await _JobPriorityRepository.GetDataCount();
-    var JobPrioritys = await _JobPriorityRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
+    var JobPriorities = await _JobPriorityRepository.GetPagedReponseAsync(request.PageNumber, request.PageSize);
 
     var JobPriorityViewModels = new List<JobPriorityViewModel>();
 
-    foreach (var p in JobPrioritys)
+    foreach (var p in JobPriorities)
     {
       var JobPriority = p.Adapt<JobPriorityViewModel>();
       JobPriorityViewModels.Add(JobPriority);
