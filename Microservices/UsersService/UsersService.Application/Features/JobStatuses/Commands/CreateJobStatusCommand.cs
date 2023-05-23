@@ -4,7 +4,7 @@ using MediatR;
 using UsersService.Application.Interfaces.Repositories;
 using UsersService.Domain.Entities;
 
-namespace UsersService.Application.Features.JobStatuss.Commands;
+namespace UsersService.Application.Features.JobStatuses.Commands;
 
 public class CreateJobStatusCommand : IRequest<Response<string>>
 {
@@ -30,6 +30,6 @@ public class CreateJobStatusesCommandHandler : IRequestHandler<CreateJobStatusCo
 
     await _JobStatusesRepository.AddAsync(JobStatuses);
 
-    return new Response<string>(JobStatuses.Id.ToString(), "JobStatuss created");
+    return new Response<string>(JobStatuses.Id.ToString(), "JobStatus created");
   }
 }
