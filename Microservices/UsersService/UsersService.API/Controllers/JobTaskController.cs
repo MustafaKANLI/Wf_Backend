@@ -42,4 +42,14 @@ public class JobTaskController : BaseApiController
         return Ok(result);
     }
 
+    // DELETE: api/<controller>/id
+    [HttpDelete("/api/JobTasks/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteJobTaskCommand { Id = id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
+    }
+
 }
