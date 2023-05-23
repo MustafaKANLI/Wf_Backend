@@ -5,32 +5,40 @@ using UsersService.Application.Features.JobTypes.Queries.GetAllJobTypes;
 
 using Microsoft.AspNetCore.Mvc;
 using Common.Parameters;
-using MassTransit;
-using Common.Contracts.Entities;
 using UsersService.Application.Features.JobTypes.Queries.GetById;
 
 public class JobTypeController : BaseApiController
 {
 
-  // POST api/<controller>
-  [HttpPost]
-  public async Task<IActionResult> Create(CreateJobTypeCommand command)
-  {
-    return Ok(await Mediator.Send(command));
-  }
+    // POST api/<controller>
+    [HttpPost("/api/JobTypes/add")]
+    public async Task<IActionResult> Create(CreateJobTypeCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
 
-  // GET: api/<controller>
-  [HttpGet]
-  public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
-  {
-    return Ok(await Mediator.Send(new GetAllJobTypesQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
-  }
+    // GET: api/<controller>
+    [HttpGet("/api/JobTypes/getall")]
+    public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
+    {
+        return Ok(await Mediator.Send(new GetAllJobTypesQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
+    }
 
     // GET: api/<controller>/id
-    [HttpGet("{id}")]
+    [HttpGet("/api/JobTypes/getbyid")]
     public async Task<IActionResult> GetById(int id)
     {
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
+    }
+
+    // DELETE: api/<controller>/id
+    [HttpDelete("/api/JobTypes/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteJobTypeCommand { Id = id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
     }
 
 }
