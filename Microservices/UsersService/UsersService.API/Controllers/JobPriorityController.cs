@@ -32,6 +32,16 @@ public class JobPriorityController : BaseApiController
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
+    // DELETE: api/<controller>
+    [HttpDelete("/api/JobPriorities/delete")]
+    public async Task<IActionResult> Delete(int Id)
+    {
+        var command = new DeleteJobPriorityCommand { Id = Id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
+    }
+
     // Put: api/<controller>
     [HttpPut("/api/JobPriorities/update")]
     public async Task<IActionResult> Update(UpdateJobPriorityCommand command)
