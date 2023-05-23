@@ -41,4 +41,11 @@ public class JobTypeController : BaseApiController
         return Ok(result);
     }
 
+    // Put: api/<controller>
+    [HttpPut("/api/JobTypes/update")]
+    public async Task<IActionResult> Update(UpdateJobTypeCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
+
 }
