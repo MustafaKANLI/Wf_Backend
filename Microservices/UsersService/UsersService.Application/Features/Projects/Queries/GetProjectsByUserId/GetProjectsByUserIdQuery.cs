@@ -15,13 +15,15 @@ public class GetProjectsByUserIdQuery : IRequest<ListedResponse<IEnumerable<Proj
 
 public class GetProjectsByUserIdQueryHandler : IRequestHandler<GetProjectsByUserIdQuery, ListedResponse<IEnumerable<ProjectViewModel>>>
 {
-    private readonly IUserRepositoryAsync _UserRepository;
     private readonly IProjectRepositoryAsync _ProjectRepository;
+    private readonly IUserRepositoryAsync _UserRepository;
+    private readonly ICustomerRepositoryAsync _CustomerRepository;
 
-    public GetProjectsByUserIdQueryHandler(IUserRepositoryAsync UserRepositoryAsync,IProjectRepositoryAsync projectRepository)
+    public GetProjectsByUserIdQueryHandler(IProjectRepositoryAsync ProjectRepository, IUserRepositoryAsync UserRepository, ICustomerRepositoryAsync customerRepository)
     {
-        _UserRepository = UserRepositoryAsync;
-        _ProjectRepository = projectRepository;
+        _ProjectRepository = ProjectRepository;
+        _UserRepository = UserRepository;
+        _CustomerRepository = customerRepository;
     }
 
     public async Task<ListedResponse<IEnumerable<ProjectViewModel>>> Handle(GetProjectsByUserIdQuery request, CancellationToken cancellationToken)
@@ -33,11 +35,26 @@ public class GetProjectsByUserIdQueryHandler : IRequestHandler<GetProjectsByUser
 
         foreach (var p in Projects)
         {
-            var result = p.Adapt<ProjectViewModel>();
+            var Project = p.Adapt<ProjectViewModel>();
 
-            // TODO: Buraya eklenenler diğer ProjectUsers Query'lerine de eklenecek
 
-            ProjectViewModels.Add(result);
+            var Customer = await _CustomerRepository.GetByIdAsync(p.CustomerId);
+            Project.CustomerName = Customer.Name;
+
+            var Manager = await _UserRepository.GetByIdAsync(p.ManagerUserId);
+            Project.ManagerUserName = Manager.FullName;
+
+            var DayApprover = await _UserRepository.GetByIdAsync(p.DayApproverUserId);
+            Project.DayApproverUserName = DayApprover.FullName;
+
+            var AnalysisApprover = await _UserRepository.GetByIdAsync(p.AnalysisApproverUserId);
+            Project.AnalysisApproverUserName = AnalysisApprover.FullName;
+
+            if (Project.IsActive == true)
+            {
+
+                ProjectViewModels.Add(Project);
+            }
         }
 
         return new ListedResponse<IEnumerable<ProjectViewModel>>(ProjectViewModels, dataCount);
