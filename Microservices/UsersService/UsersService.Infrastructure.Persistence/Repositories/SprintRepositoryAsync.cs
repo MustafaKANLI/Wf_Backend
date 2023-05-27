@@ -5,12 +5,21 @@ using UsersService.Domain.Entities;
 using UsersService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-public class SprintRepositoryAsync: GenericRepositoryAsync<Sprint>, ISprintRepositoryAsync
+public class SprintRepositoryAsync : GenericRepositoryAsync<Sprint>, ISprintRepositoryAsync
 {
-  private readonly DbSet<Sprint> _Sprints;
+    private readonly DbSet<Sprint> _Sprints;
 
-  public SprintRepositoryAsync(UsersServiceDbContext dbContext) : base(dbContext)
-  {
-     _Sprints = dbContext.Sprints;
-  }
+    public SprintRepositoryAsync(UsersServiceDbContext dbContext) : base(dbContext)
+    {
+        _Sprints = dbContext.Sprints;
+    }
+
+    public async Task<IReadOnlyList<Sprint>> GetSprintsByCustomerIdAsync(int CustomerId)
+    {
+        return await _Sprints
+            .Where(j => j.CustomerId == CustomerId)
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
 }
