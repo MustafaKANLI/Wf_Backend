@@ -2,20 +2,20 @@
   "WorkflowName": "User",
   "Rules": [
     {
-      "RuleName": "AgeOver18",
-      "SuccessEvent": "AgeOver18_Succeeded",
-      "ErrorMessage": "User is not over age 18.",
+      "RuleName": "CheckCustomerIdExists",
+      "SuccessEvent": "CustomerIdExists_Succeeded",
+      "ErrorMessage": "CustomerId does not exist.",
       "ErrorType": "Error",
       "RuleExpressionType": "LambdaExpression",
-      "Expression": "Age >= 18"
+      "Expression": "CheckCustomerIdExists(CustomerId)"
     },
     {
-      "RuleName": "AgeUnder60",
-      "SuccessEvent": "AgeUnder60_Succeeded",
-      "ErrorMessage": "User is not over age 18.",
+      "RuleName": "CheckClaimIdExists",
+      "SuccessEvent": "ClaimIdExists_Succeeded",
+      "ErrorMessage": "ClaimId does not exist.",
       "ErrorType": "Error",
       "RuleExpressionType": "LambdaExpression",
-      "Expression": "Age <= 60"
+      "Expression": "CheckClaimIdExists(ClaimId)"
     }
   ]
 }
