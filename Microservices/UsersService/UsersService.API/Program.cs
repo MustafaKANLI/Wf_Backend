@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.Features;
 using UsersService.API.Extensions;
 using UsersService.Infrastructure.Persistence;
 using MassTransit;
-//using UsersService.Infrastructure.RulesEngine.RulesEngine;
+using UsersService.Infrastructure.RulesEngine.RulesEngine;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +24,7 @@ builder.Services.AddApplicationLayer(config);
 builder.Services.AddPersistenceInfrastructure(config);
 builder.Services.AddSwaggerExtension();
 builder.Services.AddRulesEngineExtension();
-//builder.Services.AddRuleLayer();
+builder.Services.AddRuleLayer();
 
 builder.Services.AddCors(options =>
 {
