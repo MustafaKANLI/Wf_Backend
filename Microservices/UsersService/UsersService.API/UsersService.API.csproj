@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\repos\DotNet6-BackendMicroservices\Microservices\UsersService\UsersService.Domain\UsersService.Infrastructure.RulesEngine.csproj" />
     <ProjectReference Include="..\..\Common\Common.csproj" />
     <ProjectReference Include="..\UsersService.Application\UsersService.Application.csproj" />
     <ProjectReference Include="..\UsersService.Infrastructure.Persistence\UsersService.Infrastructure.Persistence.csproj" />

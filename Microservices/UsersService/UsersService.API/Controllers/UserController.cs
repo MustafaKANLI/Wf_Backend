@@ -9,30 +9,31 @@ using MassTransit;
 using Common.Contracts.Entities;
 using UsersService.Application.Features.Users.Queries.GetById;
 
-using UsersService.Infrastructure.RulesEngine.Interfaces;
+//using UsersService.Infrastructure.RulesEngine.Interfaces;
+
 using Common.Wrappers;
 
 public class UserController : BaseApiController
 {
-    private readonly IUserRules _userRules;
+    //private readonly IUserRules _userRules;
 
-    public UserController(IUserRules UserRules)
-    {
-        _userRules = UserRules;
-    }
+    //public UserController(IUserRules UserRules)
+    //{
+    //    _userRules = UserRules;
+    //}
 
     // POST api/<controller>
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserCommand command)
     {
         // Verileri RulesEngine'e göndererek doğrulama yapın
-        RuleResponse ruleResponse = await _userRules.ValidateCreateUser(command);
+        //RuleResponse ruleResponse = await _userRules.ValidateCreateUser(command);
 
-        if (!ruleResponse.Succeeded)
-        {
-            // Doğrulama hataları var, BadRequestObjectResult döndürün
-            return BadRequest(ruleResponse);
-        }
+        //if (!ruleResponse.Succeeded)
+        //{
+        //    // Doğrulama hataları var, BadRequestObjectResult döndürün
+        //    return BadRequest(ruleResponse);
+        //}
 
         return Ok(await Mediator.Send(command));
     }
