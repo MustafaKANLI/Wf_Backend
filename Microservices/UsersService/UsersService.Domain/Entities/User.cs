@@ -5,6 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class User : AuditableBaseEntity
 {
+    public User()
+    {
+        IsActive = true;  // Set IsActive to true by default
+        IsLocked = false;  // Set IsLocked to false by default
+    }
+
     [ForeignKey("Customer")]
     public int CustomerId { get; set; }
     public Customer Customer { get; set; }
