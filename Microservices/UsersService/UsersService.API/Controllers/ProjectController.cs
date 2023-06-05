@@ -40,4 +40,14 @@ public class ProjectController : BaseApiController
         return Ok(await Mediator.Send(new GetProjectsByUserIdQuery() { UserId = UserId }));
     }
 
+    // DELETE: api/<controller>/id
+    [HttpDelete("/api/Projects/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteProjectCommand { Id = id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
+    }
+
 }
