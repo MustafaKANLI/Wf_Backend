@@ -10,6 +10,7 @@ using Common.Contracts.Entities;
 using UsersService.Application.Features.ProjectUsers.Queries.GetById;
 using UsersService.Application.Features.ProjectsByUserId.Queries.GetAllProjectsByUserId;
 
+
 public class ProjectUserController : BaseApiController
 {
 
@@ -39,6 +40,16 @@ public class ProjectUserController : BaseApiController
     public async Task<IActionResult> GetProjectsByUserId([FromQuery] int UserId)
     {
         return Ok(await Mediator.Send(new GetAllProjectsByUserIdQuery() { UserId = UserId }));
+    }
+
+    // DELETE: api/<controller>/id
+    [HttpDelete("/api/ProjectUsers/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteProjectUserCommand { Id = id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
     }
 
 }
