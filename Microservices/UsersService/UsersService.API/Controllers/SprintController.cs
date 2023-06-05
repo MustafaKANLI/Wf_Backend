@@ -10,6 +10,7 @@ using Common.Contracts.Entities;
 using UsersService.Application.Features.Sprints.Queries.GetById;
 using UsersService.Application.Features.SprintsByCustomerId.Queries.GetAllSprintsByCustomerId;
 
+
 public class SprintController : BaseApiController
 {
 
@@ -39,6 +40,16 @@ public class SprintController : BaseApiController
     public async Task<IActionResult> GetByCustomerId(int CustomerId)
     {
         return Ok(await Mediator.Send(new GetAllSprintsByCustomerIdQuery() { CustomerId = CustomerId }));
+    }
+
+    // DELETE: api/<controller>/id
+    [HttpDelete("/api/Sprints/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteSprintCommand { Id = id };
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
     }
 
 }
