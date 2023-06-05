@@ -52,4 +52,11 @@ public class ProjectUserController : BaseApiController
         return Ok(result);
     }
 
+    // Put: api/<controller>
+    [HttpPut("/api/ProjectUsers/update")]
+    public async Task<IActionResult> Update(UpdateProjectUserCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
+
 }

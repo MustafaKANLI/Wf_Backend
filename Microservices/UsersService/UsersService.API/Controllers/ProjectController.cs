@@ -51,7 +51,7 @@ public class ProjectController : BaseApiController
     }
 
     // Put: api/<controller>
-    [HttpPut("/api/Project/update")]
+    [HttpPut("/api/Projects/update")]
     public async Task<IActionResult> Update(UpdateProjectCommand command)
     {
         return Ok(await Mediator.Send(command));
