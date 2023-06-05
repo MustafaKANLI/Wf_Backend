@@ -31,7 +31,7 @@ public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand,
 
     public async Task<Response<string>> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
-        var Project = await _ProjectRepository.GetByIdAsync(request.Project.Id);
+        var Project = await _ProjectRepository.GetByIdAsync(request.Id);
         if (Project == null)
         {
             throw new ApiException("Project not found");
