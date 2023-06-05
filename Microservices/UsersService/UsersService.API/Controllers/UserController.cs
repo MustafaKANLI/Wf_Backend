@@ -13,6 +13,7 @@ using UsersService.Infrastructure.RulesEngine.Interfaces;
 
 using Common.Wrappers;
 
+
 public class UserController : BaseApiController
 {
     private readonly IUserRules _userRules;
@@ -23,7 +24,7 @@ public class UserController : BaseApiController
     }
 
     // POST api/<controller>
-    [HttpPost]
+    [HttpPost("/api/Users/add")]
     public async Task<IActionResult> Create(CreateUserCommand command)
     {
         //Verileri RulesEngine'e göndererek doğrulama yapın
@@ -39,7 +40,7 @@ public class UserController : BaseApiController
     }
 
     // GET: api/<controller>
-    [HttpGet]
+    [HttpGet("/api/Users/getall")]
     public async Task<IActionResult> Get([FromQuery] RequestParameter filter)
     {
         return Ok(await Mediator.Send(new GetAllUsersQuery() { PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
@@ -47,12 +48,20 @@ public class UserController : BaseApiController
 
 
     // GET: api/<controller>/id
-    [HttpGet("{id}")]
+    [HttpGet("/api/Users/getbyid")]
     public async Task<IActionResult> GetById(int id)
     {
         return Ok(await Mediator.Send(new GetByIdQuery() { Id = id }));
     }
 
+    // DELETE: api/<controller>/id
+    [HttpDelete("/api/Users/delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new DeleteUserCommand { Id = id };
+        var result = await Mediator.Send(command);
 
+        return Ok(result);
+    }
 
 }
