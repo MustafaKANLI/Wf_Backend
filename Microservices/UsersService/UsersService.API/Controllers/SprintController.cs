@@ -52,4 +52,11 @@ public class SprintController : BaseApiController
         return Ok(result);
     }
 
+    // Put: api/<controller>
+    [HttpPut("/api/Sprints/update")]
+    public async Task<IActionResult> Update(UpdateSprintCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
+
 }
