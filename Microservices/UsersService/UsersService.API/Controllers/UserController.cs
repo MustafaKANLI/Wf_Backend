@@ -64,4 +64,11 @@ public class UserController : BaseApiController
         return Ok(result);
     }
 
+    // Put: api/<controller>
+    [HttpPut("/api/Users/update")]
+    public async Task<IActionResult> Update(UpdateUserCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
+
 }
