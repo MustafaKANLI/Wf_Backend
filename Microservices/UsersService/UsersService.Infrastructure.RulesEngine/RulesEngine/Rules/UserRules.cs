@@ -68,7 +68,7 @@ namespace UsersService.Infrastructure.RulesEngine.RulesEngine.Rules
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (claim.Any())
+            if (!claim.Any())
             {
                 ruleResponse.Succeeded = false;
                 ruleResponse.Message += "Claim cannot found! ";
@@ -79,7 +79,7 @@ namespace UsersService.Infrastructure.RulesEngine.RulesEngine.Rules
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (customer.Any())
+            if (!customer.Any())
             {
                 ruleResponse.Succeeded = false;
                 ruleResponse.Message += "Customer cannot found! ";
